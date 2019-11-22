@@ -18,18 +18,23 @@ class Ant:
         #ants start with 0, get to 0.5 for partial task completion, 1 for finding food and nest
         self.fitness = 0
         
+        #genome 
+        # sensing area
         self.A = A
+        # repeat step prob
         self.pR = pR
+        # target step prob
         self.pT = pT
+        # pheromone step prob
         self.pP = pP
         
         
-    def move(self, neighborStates):
+    def move(self, grid):
         '''
         biased walk in same direction as previous step
             or towards food/nest
         '''
-        
+        states = getNeighborStates(grid)
         pass
     
     

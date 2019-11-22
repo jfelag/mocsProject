@@ -1,0 +1,71 @@
+class Ant -> Jack
+    self variables
+        self.xPos 
+        self.yPos 
+        self.foodFlag = 0
+        self.fitness = 0        
+        self.A = A
+        self.pR = pR
+        self.pT = pT
+        self.pP = pP
+     
+     functions:
+        def move(grid) > None
+            find states around ant
+            update xPos, yPos based on biased random walk
+        def mutate() > None
+            random update of genome
+        
+class Environment -> Kelly
+    self variables:
+        self.N
+        self.grid
+        self.foodPos
+        self.foodRemaining
+        
+        # ant state = 1
+        # food state = 2
+        # pheromone state = -10 (start) 
+        
+    functions:
+        def __init__(N, foodRemaining) > None
+        def create_grid() > None 
+            self.grid = np.zeros(N, N) 
+            self.foodPos = randomx, randomy
+        def update() > None
+            +1 where grid value is <0
+            oldPositions = population.get_ant_positions() #place pheromone trails here
+            population.move()
+            positions = population.get_ant_positions()
+            self.grid = new grid (using positions)
+            
+        
+class Population -> David
+    self variables:
+        self.size
+        self.pop
+     
+     functions:
+        def move(environment.grid) > new ant positions
+            call ant.move(grid)
+        def get_ant_positions() > vector of (x,y)
+            get ant.xPos and ant.yPos for each ant
+        def selection() > None
+            update self.pop
+            
+            
+Simulation script -> David
+    
+    time = 100 or something
+    generations = 100 or something
+    for g in range(generations):
+        create environment
+        for t in range(time):
+            environment.update
+        genetic algorithm stuff
+        
+        
+    
+    
+    
+        
