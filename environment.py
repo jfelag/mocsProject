@@ -11,7 +11,7 @@ class Environment:
         # Dimension of environment
         self.N = N
         # N by N grid defines environment
-        self.grid = np.array([N,N])
+        self.grid = np.zeros((N, N)) 
         
         ################# FOOD SOURCE #################
         # Food source position (corner)
@@ -29,7 +29,7 @@ class Environment:
     def create_grid(self, N, foodN):
         
         # Create grid
-        self.grid = np.zeros(N, N) 
+        self.grid = np.zeros((N, N)) 
         
         # Set food position
         self.foodPos = (N,N)
