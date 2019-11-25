@@ -33,7 +33,53 @@ class Ant:
         biased walk in same direction as previous step
             or towards food/nest
         '''
-        states = getNeighborStates(grid)
+        states = self.get_neighbor_states(grid)
+        
+        if self.foodFlag:
+            target = NEST_VALUE
+        else:
+            target = FOOD_VALUE
+        
+        states[states==target] = self.pVec[1]
+        states[states==PHEROMONE_VALUE] = self.pVec[2]
+        
+        uStates = states[:self.A, :]
+        lStates = states[:, :self.A]
+        dStates = states[-self.A:, :]
+        rStates = states[:, -self.A:]
+        
+    
+    def get_neighbor_states(self, grid):
+        '''
+        '''
+        N = len(grid)
+        xmin = np.min([self.xPos-self.A, 0])
+        xmax = np.max([self.xPos+self.A, N-1])
+        ymin = np.min([self.yPos-self.A, 0])
+        ymax = np.max([self.yPos+self.A, N-1])
+        
+        squareArea = grid[xmin:xmax+1, ymin:ymax+1]
+        
+        dist = 2*self.A + 1
+        neighbors = np.zeros((dist, dist))
+        for x in range(dist):
+            for y in range(dist):
+                if np.abs(x-self.A)+np.abs(y-self.A) < self.A+1:
+                    neighbors[x, y] = 1
+                    
+        #print(neighbors)
+        
+        #get cells that are within self.A steps of the ant
+        sensedArea = neighbors*squareArea
+        
+        return sensedArea
+        
+    
+    def get_position(self):
+        '''
+        '''
+        
+        return (self.xPos, self.yPos)
     
     
     def mutate(self):
@@ -64,7 +110,7 @@ class Ant:
         
         #smallest sensing area -> alive for half the sim time
         # decrease life by 5 time steps for each bump in radius
-        # todo: change self.A term to quadratic weighting since the sensing area scales like A^2
+        # todo (maybe): change self.A term to quadratic weighting since the sensing area scales like A^2
         self.aliveTime = TIME/2 - 5*self.A + 5
         
         
