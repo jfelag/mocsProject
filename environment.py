@@ -48,8 +48,8 @@ class Environment:
         ############# PHEREMONE DEPLETION #############
         for x in range(self.N):
             for y in range(self.N):
-                if self.grid[x][y] < 0:
-                    self.grid[x][y] += 1
+                if self.grid[x, y] < 0:
+                    self.grid[x, y] += 1
         
         
         #### PHEREMONE ADDITION AND FOOD CONSUMPTION ####
@@ -57,7 +57,7 @@ class Environment:
         for (antPosx, antPosy) in oldPositions:
             
             # Get current ant positions and add pheremones
-            self.grid[antPosx][antPosy] += 1
+            self.grid[antPosx, antPosy] += 1
             
             # Count how many ants are on a food cell, subtract that number
             # from foodRemaining
