@@ -5,9 +5,13 @@ TIME = 100
 class Ant:
     
     def __init__(self, A, pR, pT, pP):
-        '''
-        '''
-        
+        """
+
+        :param A: Sensing Area
+        :param pR: Prob repeat last move
+        :param pT:
+        :param pP:
+        """
         #variables that store position info
         # # pass these in on initialization?
         self.xPos = 0
