@@ -43,8 +43,6 @@ class Environment:
         self.grid[self.nestPos] = 111
         
         
-        
-        
     
     def update(self):
         
