@@ -33,12 +33,15 @@ class Environment:
         
         # Set food position
         self.foodPos = (N,N)
+        self.grid[self.foodPos] = 999
         
         # Set food remaining
         self.foodRemaining = foodN
         
         # Set nest position
         self.nestPos = (0,0)
+        self.grid[self.nestPos] = 111
+        
         
         
         
