@@ -43,6 +43,8 @@ class Ant:
         '''
         states = self.get_neighbor_states(grid)
         
+        N = len(grid)
+        
         if self.foodFlag:
             target = c.NEST_VALUE
         else:
@@ -59,19 +61,107 @@ class Ant:
         dStates = states[-self.A:, :]
         rStates = states[:, -self.A:]
         
+        uProb = np.sum(uStates)
+        lProb = np.sum(lStates)
+        dProb = np.sum(dStates)
+        rProb = np.sum(rStates)
+        
+        #factor in last step bias and add chance to turn
+        if self.lastStep == 'r':
+            lProb = 0
+            rProb += 1+self.pVec[0]
+            uProb += 0.5+self.pVec[0]
+            dProb += 0.5+self.pVec[0]
+        elif self.lastStep == 'l':
+            lProb = 0
+            rProb += 1+self.pVec[0]
+            uProb += 0.5+self.pVec[0]
+            dProb += 0.5+self.pVec[0]
+        elif self.lastStep == 'u':
+            dProb = 0
+            uProb += 1+self.pVec[0]
+            lProb += 0.5+self.pVec[0]
+            rProb += 0.5+self.pVec[0]
+        elif self.lastStep == 'd':
+            uProb = 0
+            dProb += 1+self.pVec[0]
+            lProb += 0.5+self.pVec[0]
+            rProb += 0.5+self.pVec[0]
+        
+        #prevent moving outside bounds
+        if self.xPos == 0:
+            lProb = 0
+        elif self.xPos == N-1:
+            rProb = 0
+        elif self.yPos == 0:
+            uProb = 0
+        elif self.yPos == N-1:
+            dProb = 0
+        
+        #normalize
+        stepVec = np.array([uProb, lProb, dProb, rProb])
+        stepVec /= np.sum(stepVec)
+        print(stepVec)
+        
+        #move the ant
+        self.lastStep = np.random.choice(['u', 'l', 'd', 'r'], p=stepVec)
+        
+        if self.lastStep == 'u':
+            self.yPos -= 1
+        elif self.lastStep == 'l':
+            self.xPos -= 1
+        elif self.lastStep == 'd':
+            self.yPos += 1
+        elif self.lastStep == 'r':
+            self.xPos += 1
+    
     
     def get_neighbor_states(self, grid):
         '''
         '''
         N = len(grid)
-        xmin = min([self.xPos-self.A, 0])
-        xmax = max([self.xPos+self.A, N-1])
-        ymin = min([self.yPos-self.A, 0])
-        ymax = max([self.yPos+self.A, N-1])
-        
-        squareArea = grid[xmin:xmax+1, ymin:ymax+1]
-        
         dist = 2*self.A + 1
+        
+        xSenseLo = self.xPos-self.A
+        xSenseHi = self.xPos+self.A
+        ySenseLo = self.yPos-self.A
+        ySenseHi = self.yPos+self.A
+        xmin = max([xSenseLo, 0])
+        xmax = min([xSenseHi, N-1])
+        ymin = max([ySenseLo, 0])
+        ymax = min([ySenseHi, N-1])
+        
+        sensedAreaWithBounds = grid[ymin:ymax+1, xmin:xmax+1]
+        sensedAreaWithPadding = np.zeros((dist, dist))
+        
+        #print(sensedAreaWithBounds)
+        #print(self.A)
+        print(self.xPos, self.yPos)
+        print(xSenseLo, xSenseHi)
+        print(ySenseLo, ySenseHi)
+        
+        if xSenseLo < 0:
+            if ySenseLo < 0:
+                sensedAreaWithPadding[-ySenseLo:, -xSenseLo:] = sensedAreaWithBounds
+            elif ySenseHi > N-1:
+                sensedAreaWithPadding[:-ySenseHi, -xSenseLo:] = sensedAreaWithBounds 
+            else:
+                sensedAreaWithPadding[:, -xSenseLo:] = sensedAreaWithBounds 
+                
+        elif xSenseHi > N-1:
+            if ySenseHi > N-1:
+                sensedAreaWithPadding[:-ySenseHi, :-xSenseHi] = sensedAreaWithBounds
+            elif ySenseLo < 0:
+                sensedAreaWithPadding[-ySenseLo:, :-xSenseHi] = sensedAreaWithBounds
+            else:
+                sensedAreaWithPadding[:, :-xSenseHi] = sensedAreaWithBounds
+        else:
+            if ySenseLo < 0:
+                sensedAreaWithPadding[-ySenseLo:, :] = sensedAreaWithBounds 
+            elif ySenseHi > N-1:
+                sensedAreaWithPadding[:-ySenseHi, :] = sensedAreaWithBounds 
+                
+
         neighbors = np.zeros((dist, dist))
         for x in range(dist):
             for y in range(dist):
@@ -81,7 +171,7 @@ class Ant:
         #print(neighbors)
         
         #get cells that are within self.A steps of the ant
-        sensedArea = neighbors*squareArea
+        sensedArea = neighbors*sensedAreaWithPadding
         
         return sensedArea
         

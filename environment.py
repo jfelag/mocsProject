@@ -3,6 +3,9 @@ import random
 import population
 import config as c
 
+if c.VISUALS:
+    import matplotlib.pyplot as plt
+
 class Environment:
     
     def __init__(self, N, foodRemaining):
@@ -54,13 +57,14 @@ class Environment:
         for (antPosx, antPosy) in oldPositions:
             
             # Get current ant positions and add pheremones
-            self.grid[antPosx, antPosy] += 1
+            if (antPosx, antPosy) != self.nestPos and (antPosx, antPosy) != self.foodPos:
+                self.grid[antPosx, antPosy] = -10
             
             # Count how many ants are on a food cell, subtract that number
             # from foodRemaining
             if antPosx == self.N-1 and antPosy == self.N-1:
                 self.foodRemaining -= 1
-        
+                
         
         ############## MOVE THE POPULATION ##############
         #population.move()

@@ -6,6 +6,7 @@ from copy import deepcopy
 from ant import Ant
 from environment import Environment
 
+import matplotlib.pyplot as plt
 
 class Population:
     """
@@ -65,6 +66,14 @@ class Population:
             antPositions = self.get_ant_positions()
             env.update(antPositions)
             self.move(env.grid)
+            
+            if c.VISUALS:
+                
+                plt.figure()
+                plt.imshow(env.grid, vmin=-10, vmax=10)
+                plt.savefig('fig%03d.png'%t)    
+                plt.close()
+                
         
 
 
