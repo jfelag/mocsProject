@@ -73,8 +73,8 @@ class Ant:
             uProb += 0.5+self.pVec[0]
             dProb += 0.5+self.pVec[0]
         elif self.lastStep == 'l':
-            lProb = 0
-            rProb += 1+self.pVec[0]
+            rProb = 0
+            lProb += 1+self.pVec[0]
             uProb += 0.5+self.pVec[0]
             dProb += 0.5+self.pVec[0]
         elif self.lastStep == 'u':
