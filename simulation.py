@@ -13,9 +13,10 @@ def create_new_ant():
     return new_ant
 
 pop = Population(create_new_ant, pop_size = 30)
+env = Environment(N=100, foodRemaining=10)
 
 NUM_GENS = 100
 
 for i in range(100):
-    pop.evaluate()
+    pop.evaluate(env)
     pop.selection()

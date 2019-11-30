@@ -62,10 +62,11 @@ class Environment:
             
             # Count how many ants are on a food cell, subtract that number
             # from foodRemaining
-            if antPosx == self.N and antPosy == self.N:
+            if antPosx == self.N-1 and antPosy == self.N-1:
                 self.foodRemaining -= 1
         
         
         ############## MOVE THE POPULATION ##############
-        population.move()
+        #population.move()
+        #NOTE: moved to population.evaluate()
         

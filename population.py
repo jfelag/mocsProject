@@ -52,7 +52,7 @@ class Population:
 
 
 
-    def evaluate(self):
+    def evaluate(self, env):
         """
         evaluates each individual in the population
         :return: None
@@ -60,6 +60,11 @@ class Population:
         # TODO: implement evaluation on the grid. Need to update ant, environment, et al.
 
         raise NotImplementedError( "See above TODO note.")
+        
+        for t in range(TIME_STEPS):
+            env.update()
+            self.move()
+        
 
 
     def selection(self):
@@ -99,6 +104,7 @@ class Population:
             new_indv.mutate()
             self.p.append(new_indv)
 
+            
     def getNonDominated(self):
 
         dom_ind = []

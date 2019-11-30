@@ -23,6 +23,9 @@ class Ant:
         #ants start with 0, get to 0.5 for partial task completion, 1 for finding food and nest
         self.fitness = 0
         
+        #initialize last step randomly as right or down
+        self.lastStep =
+        
         #genome 
         # sensing area
         self.A = A
@@ -40,12 +43,16 @@ class Ant:
         states = self.get_neighbor_states(grid)
         
         if self.foodFlag:
-            target = NEST_VALUE
+            #nest value
+            target = 111
         else:
-            target = FOOD_VALUE
+            #food value
+            target = 999
         
+        #bias towards target
         states[states==target] = self.pVec[1]
-        states[states==PHEROMONE_VALUE] = self.pVec[2]
+        #bias towards pheromones
+        states[states<0] = self.pVec[2]
         
         uStates = states[:self.A, :]
         lStates = states[:, :self.A]
@@ -57,10 +64,10 @@ class Ant:
         '''
         '''
         N = len(grid)
-        xmin = np.min([self.xPos-self.A, 0])
-        xmax = np.max([self.xPos+self.A, N-1])
-        ymin = np.min([self.yPos-self.A, 0])
-        ymax = np.max([self.yPos+self.A, N-1])
+        xmin = min([self.xPos-self.A, 0])
+        xmax = max([self.xPos+self.A, N-1])
+        ymin = min([self.yPos-self.A, 0])
+        ymax = max([self.yPos+self.A, N-1])
         
         squareArea = grid[xmin:xmax+1, ymin:ymax+1]
         
@@ -68,7 +75,7 @@ class Ant:
         neighbors = np.zeros((dist, dist))
         for x in range(dist):
             for y in range(dist):
-                if np.abs(x-self.A)+np.abs(y-self.A) < self.A+1:
+                if abs(x-self.A)+abs(y-self.A) < self.A+1:
                     neighbors[x, y] = 1
                     
         #print(neighbors)
