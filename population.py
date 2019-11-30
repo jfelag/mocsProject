@@ -71,7 +71,7 @@ class Population:
                 
                 plt.figure()
                 plt.imshow(env.grid, vmin=-10, vmax=10)
-                plt.savefig('fig%03d.png'%t)    
+                plt.savefig('./figs/fig%03d.png'%t)    
                 plt.close()
                 
         
