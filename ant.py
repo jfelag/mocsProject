@@ -1,4 +1,5 @@
 import numpy as np
+import config as c
 
 TIME = 100
 
@@ -24,7 +25,7 @@ class Ant:
         self.fitness = 0
         
         #initialize last step randomly as right or down
-        self.lastStep =
+        self.lastStep = np.random.choice(['r','d'])
         
         #genome 
         # sensing area
@@ -43,11 +44,10 @@ class Ant:
         states = self.get_neighbor_states(grid)
         
         if self.foodFlag:
-            #nest value
-            target = 111
+            target = c.NEST_VALUE
         else:
             #food value
-            target = 999
+            target = c.FOOD_VALUE
         
         #bias towards target
         states[states==target] = self.pVec[1]
@@ -117,7 +117,7 @@ class Ant:
             update the aliveTime based on sensing area
         '''
         
-        self.pVec /= np.sum(pVec)
+        self.pVec /= np.sum(self.pVec)
         
         #smallest sensing area -> alive for half the sim time
         # decrease life by 5 time steps for each bump in radius

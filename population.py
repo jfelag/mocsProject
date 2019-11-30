@@ -1,7 +1,7 @@
 import random
 
 import numpy as np
-
+import config as c
 from copy import deepcopy
 from ant import Ant
 from environment import Environment
@@ -59,11 +59,12 @@ class Population:
         """
         # TODO: implement evaluation on the grid. Need to update ant, environment, et al.
 
-        raise NotImplementedError( "See above TODO note.")
+        #raise NotImplementedError( "See above TODO note.")
         
-        for t in range(TIME_STEPS):
-            env.update()
-            self.move()
+        for t in range(c.TIME_STEPS):
+            antPositions = self.get_ant_positions()
+            env.update(antPositions)
+            self.move(env.grid)
         
 
 
@@ -117,6 +118,17 @@ class Population:
             if not dominated:
                 dom_ind.append(self.p[s])
         return sorted(dom_ind, key=lambda x: x.age)
+    
+    
+    def get_ant_positions(self):
+        
+        return [(ant.xPos, ant.yPos) for ant in self.p]
+    
+    
+    def move(self, grid):
+        
+        for ant in self.p:
+            ant.move(grid)
 
 
 def dominates(a, b):

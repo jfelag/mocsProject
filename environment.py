@@ -1,7 +1,7 @@
 import numpy as np
 import random
 import population
-
+import config as c
 
 class Environment:
     
@@ -26,25 +26,22 @@ class Environment:
         
         
         
-    def create_grid(self, N, foodN):
+    def create_grid(self):
         
         # Create grid
-        self.grid = np.zeros((N, N)) 
+        self.grid = np.zeros((self.N, self.N)) 
         
         # Set food position
-        self.foodPos = (N,N)
-        self.grid[self.foodPos] = 999
-        
-        # Set food remaining
-        self.foodRemaining = foodN
+        self.foodPos = (self.N-1, self.N-1)
+        self.grid[self.foodPos] = c.FOOD_VALUE
         
         # Set nest position
         self.nestPos = (0,0)
-        self.grid[self.nestPos] = 111
+        self.grid[self.nestPos] = c.NEST_VALUE
         
         
     
-    def update(self):
+    def update(self, oldPositions):
         
         ############# PHEREMONE DEPLETION #############
         for x in range(self.N):
@@ -54,7 +51,6 @@ class Environment:
         
         
         #### PHEREMONE ADDITION AND FOOD CONSUMPTION ####
-        oldPositions = population.get_ant_positions()
         for (antPosx, antPosy) in oldPositions:
             
             # Get current ant positions and add pheremones

@@ -1,4 +1,6 @@
 from population import Population
+from environment import Environment
+import config as c
 from ant import Ant
 import random
 import numpy as np
@@ -12,11 +14,12 @@ def create_new_ant():
     new_ant = Ant(sensing_area, p_repeat, p_target, p_pheromone)
     return new_ant
 
-pop = Population(create_new_ant, pop_size = 30)
-env = Environment(N=100, foodRemaining=10)
 
-NUM_GENS = 100
+pop = Population(create_new_ant, pop_size=c.POP_SIZE)
+env = Environment(N=c.GRID_SIZE, foodRemaining=c.FOOD_INITIAL)
 
-for i in range(100):
+for i in range(c.NUM_GENS):
+    #reset grid before each simulation
+    env.create_grid()
     pop.evaluate(env)
     pop.selection()
