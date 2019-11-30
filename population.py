@@ -84,9 +84,9 @@ class Population:
         """
         # increment ages
         for i in range(len(self.p)):
-            print(self.p[i].age, end='->')
+            # print(self.p[i].age, end='->')
             self.p[i].increment_age()
-            print(self.p[i].age)
+            # print(self.p[i].age)
 
         # contract the population to non-dominated individuals
         dom_ind = []

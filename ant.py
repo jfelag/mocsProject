@@ -91,11 +91,11 @@ class Ant:
         #prevent moving outside bounds
         if self.xPos == 0:
             lProb = 0
-        elif self.xPos == N-1:
+        if self.xPos == N-1:
             rProb = 0
-        elif self.yPos == 0:
+        if self.yPos == 0:
             uProb = 0
-        elif self.yPos == N-1:
+        if self.yPos == N-1:
             dProb = 0
         
         #normalize
@@ -114,8 +114,13 @@ class Ant:
             self.yPos += 1
         elif self.lastStep == 'r':
             self.xPos += 1
-    
-    
+
+        assert 0 <= self.yPos, "Y pos error"
+        assert self.yPos < N, "Y pos error"
+        assert 0 <= self.xPos, "x pos error"
+        assert self.xPos < N, "x pos error"
+
+
     def get_neighbor_states(self, grid):
         '''
         '''
@@ -136,9 +141,13 @@ class Ant:
         
         #print(sensedAreaWithBounds)
         #print(self.A)
-        print(self.xPos, self.yPos)
-        print(xSenseLo, xSenseHi)
-        print(ySenseLo, ySenseHi)
+        print()
+        print("pos:", self.xPos, self.yPos)
+        print("x sense:", xSenseLo, xSenseHi)
+        print("y sense:", ySenseLo, ySenseHi)
+        print("xmin, xmax, ymin, ymax", xmin, xmax, ymin, ymax)
+        print("sense shape:", sensedAreaWithBounds.shape)
+        print("target sense shape:", sensedAreaWithPadding.shape)
         
         if xSenseLo < 0:
             if ySenseLo < 0:
