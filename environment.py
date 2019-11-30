@@ -47,11 +47,8 @@ class Environment:
     def update(self, oldPositions):
         
         ############# PHEREMONE DEPLETION #############
-        for x in range(self.N):
-            for y in range(self.N):
-                if self.grid[x, y] < 0:
-                    self.grid[x, y] += 1
-        
+     
+        self.grid[self.grid<0] += 1
         
         #### PHEREMONE ADDITION AND FOOD CONSUMPTION ####
         for (antPosx, antPosy) in oldPositions:
