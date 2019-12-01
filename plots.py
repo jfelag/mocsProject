@@ -1,5 +1,7 @@
 import pandas as pd
-import matplotlib as plt
+import matplotlib.pyplot as plt
+import matplotlib.pylab as pl
+import numpy as np
 
 # Data:
 #### ant.xPos - x position
@@ -28,11 +30,17 @@ plt.xlabel('Sensing Area')
 plt.ylabel('Frequency')
 plt.savefig('figs/dist_sensing_areaT.png')
 
-for A in data['A'].unique():
-    sensing_area_timeseries = data[data['A'] == A]
-    plt.plot(dist_sensing_areaT['A'], density = True)
+
     
-plt.title('Distribution of Sensing Area at T = T')
+n = len(data['A'].unique())
+colors = pl.cm.jet(np.linspace(0,1,n))
+i = 0
+for A in data['A'].unique():
+    sensing_area_timeseries = data[data['A'] == A].groupby('t').count().reset_index()
+    plt.plot(x = sensing_area_timeseries['t'], y = sensing_area_timeseries['A'], color = colors[i])
+    i += 1
+
+plt.title('Timeseries ')
 plt.xlabel('Sensing Area')
 plt.ylabel('Frequency')
 plt.savefig('figs/dist_sensing_areaT.png')
