@@ -5,6 +5,7 @@ import config as c
 from copy import deepcopy
 from ant import Ant
 from environment import Environment
+import pandas as pd
 
 import matplotlib.pyplot as plt
 
@@ -50,6 +51,20 @@ class Population:
         self.p = [None] * self.popSize
         for i in range(self.popSize):
             self.p[i] = self.ind()
+            
+            
+            
+    def collect_data(self, t):
+        for ant in self.p:
+            d = [ant.xPos, ant.yPos, ant.fitness, ant.A, 
+                  ant.foodFlag, ant.pVec[0], ant.pVec[1], 
+                 ant.pVec[2], t]
+            temp = pd.DataFrame.from_dict(data = d)
+            try:
+                data.append(temp)
+            except:
+                data = temp
+        return data
 
 
 
@@ -64,18 +79,23 @@ class Population:
         
         for t in range(c.TIME_STEPS):
             antPositions = self.get_ant_positions()
+            data = self.collect_data(t)
             env.update(antPositions)
             self.move(env.grid)
-            
+        
             if c.VISUALS:
                 
                 plt.figure()
                 plt.imshow(env.grid, vmin=-10, vmax=10)
                 plt.savefig('./figs/fig%03d.png'%t)    
                 plt.close()
+<<<<<<< HEAD
         exit()
+=======
+                
+        data.to_csv('data.csv', mode='a', header=False)                
+>>>>>>> 3115558ea96af890e9411d5845003ba4fd3af660
         
-
 
     def selection(self):
         """
@@ -130,7 +150,7 @@ class Population:
     
     
     def get_ant_positions(self):
-        
+                
         return [(ant.xPos, ant.yPos) for ant in self.p]
     
     
