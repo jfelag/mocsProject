@@ -54,11 +54,11 @@ class Population:
             
             
             
-    def collect_data(self):
+    def collect_data(self, t):
         for ant in self.p:
             d = [ant.xPos, ant.yPos, ant.fitness, ant.A, 
                   ant.foodFlag, ant.pVec[0], ant.pVec[1], 
-                 ant.pVec[2]]
+                 ant.pVec[2], t]
             temp = pd.DataFrame.from_dict(data = d)
             try:
                 data.append(temp)
@@ -79,7 +79,7 @@ class Population:
         
         for t in range(c.TIME_STEPS):
             antPositions = self.get_ant_positions()
-            data = self.collect_data()
+            data = self.collect_data(t)
             env.update(antPositions)
             self.move(env.grid)
         
@@ -90,8 +90,7 @@ class Population:
                 plt.savefig('./figs/fig%03d.png'%t)    
                 plt.close()
                 
-        data.to_csv('testdata.csv')
-                
+        data.to_csv('data.csv', mode='a', header=False)                
         
 
     def selection(self):

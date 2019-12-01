@@ -32,7 +32,7 @@ class Ant:
         self.A = A
         # repeat step prob, target step prob, pheromone step prob
         self.pVec = np.array([pR, pT, pP])
-        
+                
         self.fix_parameters()
         
         
