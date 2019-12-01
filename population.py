@@ -89,12 +89,8 @@ class Population:
                 plt.imshow(env.grid, vmin=-10, vmax=10)
                 plt.savefig('./figs/fig%03d.png'%t)    
                 plt.close()
-<<<<<<< HEAD
-        exit()
-=======
                 
         data.to_csv('data.csv', mode='a', header=False)                
->>>>>>> 3115558ea96af890e9411d5845003ba4fd3af660
         
 
     def selection(self):
