@@ -38,7 +38,7 @@ for g in range(c.NUM_GENS):
     fitMatrix[g] = fitVec
     pop.selection()
     
-    data.to_csv('csv/G_'+str(g)+'_SEED_'+str(SEED)+'_.csv', columns = cols)
+    data.to_csv('csv/SEED_'+str(SEED)+'_G_'+str(g)+'_.csv', columns = cols)
     
 
 with open('fitnessValues_%03d.p'%SEED, 'wb') as f:

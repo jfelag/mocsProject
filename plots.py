@@ -21,27 +21,19 @@ def make_args():
                         help='output directory (will be passed to args.script with -o argument)',
                         required=True,
                         type=str)
-    parser.add_argument('-s',
-                        '--seed',
-                        help='desired seed files to grab',
-                        required=False,
-                        default=None,
-                        type=str)s
     return parser.parse_args()
 
-# Data:
-#### ant.xPos - x position
-#### ant.yPos - y position
-#### ant.fitness - fitness (single number)
-#### ant.A - sensing area (integer)
-#### ant.foodFlag - boolean
-#### ant.pVec[0] - p of repeating a step
-#### ant.pVec[1] - p of moving towards food/nest
-#### ant.pVec[2] - p of moving towards pheromone
-#### t - timestep
+def read_files(datadir):
+    temp = []
+    for file in glob.glob(datadir):
+        temp.append(pd.read_csv(file, index_col=False))
+        
+    SEED = file.split('_')[1]
+    data = pd.concat(temp, axis=0, ignore_index=True)
+    
+    return data, SEED
 
-
-def SA_dist_T(T, out):
+def SA_dist_T(data, T, out):
     # Distribution of # ants by sensing area at T = T
     plt.figure(figsize = (8,6))
     dist_sensing_areaT = data[data['t'] == T]
@@ -55,7 +47,7 @@ def SA_dist_T(T, out):
     plt.close()
 
 
-def SA_timeseries(out):
+def SA_timeseries(data, out):
     # Timeseries of # of ants, each line is a sensing area group
     n = len(data[' A'].unique())
     colors = pl.cm.jet(np.linspace(0,1,n))
@@ -74,7 +66,7 @@ def SA_timeseries(out):
     plt.close()
 
 
-def fitness_SA_timeseries(out):
+def fitness_SA_timeseries(data, out):
     # Timeseries of average fitness, each line is a sensing area group
     n = len(data[' A'].unique())
     colors = pl.cm.jet(np.linspace(0,1,n))
@@ -94,7 +86,7 @@ def fitness_SA_timeseries(out):
     plt.close()
 
 
-def fitness_SA_scatter(out):
+def fitness_SA_scatter(data, out):
     # Distribution of average fitness by sensing area group
     plt.figure(figsize = (8,6))
     dist_fitnessT = data[data['t'] == max(data['t'])].groupby(' A').mean().reset_index()
@@ -108,11 +100,10 @@ def fitness_SA_scatter(out):
     plt.close()
 
 
-def violin_fitness(out):
+def violin_fitness(data, out):
     # Violin plot of each sensing areas fitness distribution
     fig = plt.figure()
     fig, axes = plt.subplots(figsize = (8,6))
-    print(min(data[' fitness']))
     sns.violinplot(' A',' fitness', data=data, ax = axes)
     axes.set_title('Distribution of Fitness by Sensing Area')
     #axes.yaxis.grid(True)
@@ -125,11 +116,20 @@ def violin_fitness(out):
 
 def main():
     
-    for file in glob.glob()
-        data = pd.read_csv('fakedata.csv', index_col=False)
-
-    SA_dist_T(0, out)
-    SA_dist_T(max(data['timestep']), out)
+    args = make_args()
+    
+    datadir = args.inputdir #csv/SEED_123*.csv
+    outputdir = args.outdir
+    
+    data, SEED = read_files(datadir)
+    out = outputdir+'SEED_'+str(SEED)+'_'
+    
+    SA_dist_T(data, 0, out)
+    SA_dist_T(data, max(data['timestep']), out)
+    SA_timeseries(data, out)
+    fitness_SA_timeseries(data, out)
+    fitness_SA_scatter(data, out)
+    violin_fitness(data, out)
     
 
 if __name__=="__main__":
