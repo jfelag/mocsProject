@@ -25,14 +25,20 @@ env = Environment(N=c.GRID_SIZE, foodRemaining=c.FOOD_INITIAL)
 
 fitMatrix = np.zeros((c.NUM_GENS, c.POP_SIZE))
 
+cols = ['id','xPos','yPos','A','foodFlag',
+        'nestFlag','pRepeat','pTarget',
+        'pPhero','timeForFood','timeForNest','timestep']
+
 for g in range(c.NUM_GENS):
     #reset grid before each simulation
     env.create_grid()
-    pop.evaluate(env)
+    data = pop.evaluate(env)
     fitVec = pop.get_fitness()
     print('Generation %03d'%g, fitVec)
     fitMatrix[g] = fitVec
     pop.selection()
+    
+    data.to_csv('G_'+str(g)+'_SEED_'+str(SEED)+'_.csv', columns = cols)
     
 
 with open('fitnessValues_%03d.p'%SEED, 'wb') as f:

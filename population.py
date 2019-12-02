@@ -56,9 +56,9 @@ class Population:
             
     def collect_data(self, t):
         for ant in self.p:
-            d = [ant.xPos, ant.yPos, ant.fitness, ant.A, 
-                  ant.foodFlag, ant.pVec[0], ant.pVec[1], 
-                 ant.pVec[2], t]
+            d = [ant.id, ant.xPos, ant.yPos, ant.fitness, ant.A, 
+                  ant.foodFlag, ant.nestFlag, ant.pVec[0], ant.pVec[1], 
+                 ant.pVec[2], ant.timeForFood, ant.timeForNest, t]
             temp = pd.DataFrame.from_dict(data = d)
             try:
                 data.append(temp)
@@ -102,8 +102,8 @@ class Population:
             
         for ant in self.p:
             ant.set_fitness()
-            
-        data.to_csv('data.csv', mode='a', header=False)                
+        
+        return data
         
 
     def selection(self):
