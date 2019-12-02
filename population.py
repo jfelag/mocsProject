@@ -161,6 +161,7 @@ class Population:
             parent_index = random.randrange(0, initial_size)
             new_indv = deepcopy(self.p[parent_index])
             new_indv.mutate()
+            new_indv.new_id()
             self.p.append(new_indv)
 
             

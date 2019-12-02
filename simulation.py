@@ -39,12 +39,18 @@ SEED = 0
 random.seed(SEED)
 np.random.seed(SEED)
 
+ANT_ID = 0
+def get_ant_id():
+    global ANT_ID
+    ANT_ID += 1
+    return ANT_ID
+
 def create_new_ant():
     sensing_area = random.randint(1, 10)
     p_repeat = random.random()
     p_target = random.random()
     p_pheromone = random.random()
-    new_ant = Ant(sensing_area, p_repeat, p_target, p_pheromone)
+    new_ant = Ant(sensing_area, p_repeat, p_target, p_pheromone, get_id = get_ant_id)
     return new_ant
 
 
@@ -65,9 +71,9 @@ for g in range(c.NUM_GENS):
     data.to_csv('csv/SEED_'+str(SEED)+'_G_'+str(g)+'_.csv')
     
 
-with open('fitnessValues_%03d.p'%SEED, 'wb') as f:
-    
-    pickle.dump(fitMatrix, f)
+# with open('fitnessValues_%03d.p'%SEED, 'wb') as f:
+#
+#     pickle.dump(fitMatrix, f)
     
 
 #if __name__=="__main__":

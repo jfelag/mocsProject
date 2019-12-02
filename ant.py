@@ -5,7 +5,7 @@ TIME = 100
 
 class Ant:
     
-    def __init__(self, A, pR, pT, pP):
+    def __init__(self, A, pR, pT, pP, get_id=None):
         """
 
         :param A: Sensing Area
@@ -13,6 +13,7 @@ class Ant:
         :param pT:
         :param pP:
         """
+        self.get_id = get_id
         #variables that store position info
         # # pass these in on initialization?
         self.xPos = 0
@@ -28,6 +29,7 @@ class Ant:
         self.fitness = 0
         self.age = 0
         self.id = 0
+        self.new_id()
         
         #initialize last step randomly as right or down
         self.lastStep = np.random.choice(['r','d'])
@@ -42,8 +44,11 @@ class Ant:
         
         self.lifeLeft = self.aliveTime
         self.dead = False
-        
-        
+
+    def new_id(self):
+        self.id = self.get_id()
+
+
     def move(self, grid):
         '''
         biased walk in same direction as previous step
