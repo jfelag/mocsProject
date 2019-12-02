@@ -7,4 +7,4 @@ FOOD_VALUE = 9
 NEST_VALUE = 1
 
 #debug only
-VISUALS = True
+VISUALS = False
