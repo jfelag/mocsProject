@@ -1,0 +1,2 @@
+,id,xPos,yPos,fitness,A,foodFlag,nestFlag,pRepeat,pTarget,pPhero,timeForFood,timeForNest,timestep
+0,0,5,4,0,9,0,0,0.7521385659154806,0.09242551586399199,0.1554359182205274,0,0,499
