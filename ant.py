@@ -20,9 +20,14 @@ class Ant:
         
         #initialize as 0, set to 1 if food has been found
         self.foodFlag = 0
+        self.nestFlag = 0
         
-        #ants start with 0, get to 0.5 for partial task completion, 1 for finding food and nest
+        self.timeForFood = 0
+        self.timeForNest = 0
+        
         self.fitness = 0
+        self.age = 0
+        self.id = 0
         
         #initialize last step randomly as right or down
         self.lastStep = np.random.choice(['r','d'])
@@ -101,7 +106,7 @@ class Ant:
         #normalize
         stepVec = np.array([uProb, lProb, dProb, rProb])
         stepVec /= np.sum(stepVec)
-        print(stepVec)
+        #print(stepVec)
         
         #move the ant
         self.lastStep = np.random.choice(['u', 'l', 'd', 'r'], p=stepVec)
@@ -141,6 +146,7 @@ class Ant:
         
         #print(sensedAreaWithBounds)
         #print(self.A)
+        '''
         print()
         print("pos:", self.xPos, self.yPos)
         print("x sense:", xSenseLo, xSenseHi)
@@ -148,6 +154,7 @@ class Ant:
         print("xmin, xmax, ymin, ymax", xmin, xmax, ymin, ymax)
         print("sense shape:", sensedAreaWithBounds.shape)
         print("target sense shape:", sensedAreaWithPadding.shape)
+        '''
         
         if xSenseLo < 0:
             if ySenseLo < 0:
@@ -222,6 +229,28 @@ class Ant:
         # decrease life by 5 time steps for each bump in radius
         # todo (maybe): change self.A term to quadratic weighting since the sensing area scales like A^2
         self.aliveTime = TIME/2 - 5*self.A + 5
+        
+    
+    def increment_age(self):
+        '''
+        '''
+        
+        self.age += 1
+    
+    
+    def set_fitness(self):
+        '''
+        '''
+        pass
+    
+    
+    def reset_lifetime(self):
+        '''
+        '''
+        self.lifeLeft = self.aliveTime
+        
+        
+        
         
         
         

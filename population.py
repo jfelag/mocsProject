@@ -47,7 +47,7 @@ class Population:
 
         self.ind = ind
         self.popSize = pop_size
-
+        
         self.p = [None] * self.popSize
         for i in range(self.popSize):
             self.p[i] = self.ind()
@@ -89,7 +89,20 @@ class Population:
                 plt.imshow(env.grid, vmin=-10, vmax=10)
                 plt.savefig('./figs/fig%03d.png'%t)    
                 plt.close()
+            
+            for ant in self.p:
+                if ant.get_position() == env.foodPos:
+                    ant.foodFlag = 1
+                    ant.timeForFood = t
+                    ant.reset_lifetime()
+                if ant.get_position() == env.nestPos and ant.foodFlag == 1:
+                    ant.nestFlag = 1
+                    ant.timeForNest = t
                 
+            
+        for ant in self.p:
+            ant.set_fitness()
+            
         data.to_csv('data.csv', mode='a', header=False)                
         
 
@@ -154,6 +167,13 @@ class Population:
         
         for ant in self.p:
             ant.move(grid)
+            
+    
+    def get_fitness(self):
+        '''
+        '''
+        
+        return [ant.fitness for ant in self.p]
 
 
 def dominates(a, b):
