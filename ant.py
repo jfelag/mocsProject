@@ -264,7 +264,7 @@ class Ant:
             else:
                 #fit for food and no nest
                 #closer to nest, fitness is closer to 1
-                self.fitness = 0.5 + (self.xPos+self.yPos)/(2*c.GRID_SIZE)
+                self.fitness = 1 - (self.xPos+self.yPos)/(4*c.GRID_SIZE)
                 print('just food fitness calc')
         else:
             #fit for no food no nest
