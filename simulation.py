@@ -5,6 +5,34 @@ from ant import Ant
 import random
 import numpy as np
 import pickle
+import argparse
+
+#def make_args():
+#    description = ''
+#    parser = argparse.ArgumentParser(description=description,formatter_class=argparse.ArgumentDefaultsHelpFormatter)
+#    parser.add_argument('-i',
+#                        '--inputdir',
+#                        help='input directory',
+#                        required=True,
+#                        type=str)
+#    parser.add_argument('-o',
+#                        '--outdir',
+#                        help='output directory',
+#                        required=True,
+#                        type=str)
+#    parser.add_argument('-s',
+#                        '--seed',
+#                        help='seed',
+#                        required=True,
+#                        type=str)
+#    return parser.parse_args()
+
+
+#def main():
+#   args = make_args()
+#    
+#    datadir = args.inputdir
+#    outputdir = args.outdir
 
 SEED = 0 
 
@@ -28,14 +56,19 @@ env = Environment(N=c.GRID_SIZE, foodRemaining=c.FOOD_INITIAL)
 for g in range(c.NUM_GENS):
     #reset grid before each simulation
     env.create_grid()
-    pop.evaluate(env)
+    data = pop.evaluate(env)
     fitVec = pop.get_fitness()
     print('Generation %03d'%g, ['%0.3f'%x for x in fitVec])
     #fitMatrix[g] = fitVec
     pop.selection()
+    
+    data.to_csv('csv/SEED_'+str(SEED)+'_G_'+str(g)+'_.csv')
     
 
 with open('fitnessValues_%03d.p'%SEED, 'wb') as f:
     
     pickle.dump(fitMatrix, f)
     
+
+#if __name__=="__main__":
+#    main()
