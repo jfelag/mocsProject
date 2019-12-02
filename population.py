@@ -59,15 +59,17 @@ class Population:
         'nestFlag','pRepeat','pTarget',
         'pPhero','timeForFood','timeForNest','timestep']
         
+        i = 0
         for ant in self.p:
             d = [[ant.id, ant.xPos, ant.yPos, ant.fitness, ant.A, 
                   ant.foodFlag, ant.nestFlag, ant.pVec[0], ant.pVec[1], 
                  ant.pVec[2], ant.timeForFood, ant.timeForNest, t]]
-            temp = pd.DataFrame(data = d, columns = cols)
-            try:
-                data.append(temp, columns = cols)
-            except:
-                data = temp
+            if i == 0:
+                data = pd.DataFrame(data = d, columns = cols)
+                i += 1
+            else:
+                temp = pd.DataFrame(data = d, columns = cols)
+                data = data.append(temp)
         return data
 
 
@@ -83,7 +85,13 @@ class Population:
         
         for t in range(c.TIME_STEPS):
             antPositions = self.get_ant_positions()
-            data = self.collect_data(t)
+            
+            if t == 0:
+                data = self.collect_data(t)
+            else:
+                temp = self.collect_data(t)
+                data = data.append(temp)
+                
             env.update(antPositions)
             self.move(env.grid)
         
@@ -153,6 +161,7 @@ class Population:
             parent_index = random.randrange(0, initial_size)
             new_indv = deepcopy(self.p[parent_index])
             new_indv.mutate()
+            new_indv.new_id()
             self.p.append(new_indv)
             
         for ant in self.p:
