@@ -55,13 +55,17 @@ class Population:
             
             
     def collect_data(self, t):
+        cols = ['id','xPos','yPos','fitness','A','foodFlag',
+        'nestFlag','pRepeat','pTarget',
+        'pPhero','timeForFood','timeForNest','timestep']
+        
         for ant in self.p:
-            d = [ant.id, ant.xPos, ant.yPos, ant.fitness, ant.A, 
+            d = [[ant.id, ant.xPos, ant.yPos, ant.fitness, ant.A, 
                   ant.foodFlag, ant.nestFlag, ant.pVec[0], ant.pVec[1], 
-                 ant.pVec[2], ant.timeForFood, ant.timeForNest, t]
-            temp = pd.DataFrame.from_dict(data = d)
+                 ant.pVec[2], ant.timeForFood, ant.timeForNest, t]]
+            temp = pd.DataFrame(data = d, columns = cols)
             try:
-                data.append(temp)
+                data.append(temp, columns = cols)
             except:
                 data = temp
         return data
