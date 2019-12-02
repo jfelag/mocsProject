@@ -18,7 +18,7 @@ class Environment:
         
         ################# FOOD SOURCE #################
         # Food source position (corner)
-        self.foodPos = (N,N)
+        self.foodPos = (N-1,N-1)
         # Food remaining in food source
         self.foodRemaining = foodRemaining
         

@@ -23,15 +23,15 @@ def create_new_ant():
 pop = Population(create_new_ant, pop_size=c.POP_SIZE)
 env = Environment(N=c.GRID_SIZE, foodRemaining=c.FOOD_INITIAL)
 
-fitMatrix = np.zeros((c.NUM_GENS, c.POP_SIZE))
+#fitMatrix = np.zeros((c.NUM_GENS, c.POP_SIZE))
 
 for g in range(c.NUM_GENS):
     #reset grid before each simulation
     env.create_grid()
     pop.evaluate(env)
     fitVec = pop.get_fitness()
-    print('Generation %03d'%g, fitVec)
-    fitMatrix[g] = fitVec
+    print('Generation %03d'%g, ['%0.3f'%x for x in fitVec])
+    #fitMatrix[g] = fitVec
     pop.selection()
     
 

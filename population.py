@@ -91,13 +91,21 @@ class Population:
                 plt.close()
             
             for ant in self.p:
+                
+                ant.lifeLeft -= 1
+                        
                 if ant.get_position() == env.foodPos:
                     ant.foodFlag = 1
+                    print('set food flag to 1')
                     ant.timeForFood = t
                     ant.reset_lifetime()
                 if ant.get_position() == env.nestPos and ant.foodFlag == 1:
                     ant.nestFlag = 1
                     ant.timeForNest = t
+                    
+                if ant.lifeLeft == 0:
+                    ant.dead = True
+                
                 
             
         for ant in self.p:
@@ -166,7 +174,8 @@ class Population:
     def move(self, grid):
         
         for ant in self.p:
-            ant.move(grid)
+            if not ant.dead:
+                ant.move(grid)
             
     
     def get_fitness(self):

@@ -40,6 +40,9 @@ class Ant:
                 
         self.fix_parameters()
         
+        self.lifeLeft = self.aliveTime
+        self.dead = False
+        
         
     def move(self, grid):
         '''
@@ -212,7 +215,6 @@ class Ant:
             pIdxToChange = np.random.choice([0,1,2])
             #change selected prob to [0.9, 1.1] times its original value
             self.pVec[pIdxToChange] *= 1 + (np.random.random() * 0.2 - 0.1)
-            self.pVec /= np.sum(pVec)
         
         self.fix_parameters()
         
@@ -241,7 +243,22 @@ class Ant:
     def set_fitness(self):
         '''
         '''
-        pass
+        if self.foodFlag:
+            if self.nestFlag:
+                #fit for food and nest
+                self.fitness = c.TIME_STEPS - self.timeForNest
+                self.fitness /= c.TIME_STEPS
+                self.fitness += 1
+                print('food and nest fitness calc')
+            else:
+                #fit for food and no nest
+                #closer to nest, fitness is closer to 1
+                self.fitness = 0.5 + (self.xPos+self.yPos)/(2*c.GRID_SIZE)
+                print('just food fitness calc')
+        else:
+            #fit for no food no nest
+            #closer to food, fitness is closer to 0.5
+            self.fitness = 0.5 - (2*c.GRID_SIZE - (self.xPos+self.yPos))/(4*c.GRID_SIZE)
     
     
     def reset_lifetime(self):
