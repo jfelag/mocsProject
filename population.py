@@ -53,17 +53,16 @@ class Population:
             self.p[i] = self.ind()
             
             
-            
     def collect_data(self, t):
         cols = ['id','xPos','yPos','fitness','A','foodFlag',
         'nestFlag','pRepeat','pTarget',
-        'pPhero','timeForFood','timeForNest','timestep']
+        'pPhero','timeForFood','timeForNest','deadFlag','timestep']
         
         i = 0
         for ant in self.p:
             d = [[ant.id, ant.xPos, ant.yPos, ant.fitness, ant.A, 
                   ant.foodFlag, ant.nestFlag, ant.pVec[0], ant.pVec[1], 
-                 ant.pVec[2], ant.timeForFood, ant.timeForNest, t]]
+                 ant.pVec[2], ant.timeForFood, ant.timeForNest, ant.dead, t]]
             if i == 0:
                 data = pd.DataFrame(data = d, columns = cols)
                 i += 1

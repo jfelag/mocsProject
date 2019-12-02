@@ -73,7 +73,6 @@ for g in range(c.NUM_GENS):
     data.to_csv('csv/SEED_'+str(SEED)+'_G_'+str(g)+'_.csv')
     
 
-
 #with open('fitnessValues_%03d.p'%SEED, 'wb') as f:   
     #pickle.dump(fitMatrix, f)
     
