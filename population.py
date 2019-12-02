@@ -154,6 +154,16 @@ class Population:
             new_indv = deepcopy(self.p[parent_index])
             new_indv.mutate()
             self.p.append(new_indv)
+            
+        for ant in self.p:
+            ant.reset_lifetime()
+            ant.xPos = 0
+            ant.yPos = 0
+            ant.dead = False
+            ant.foodFlag = 0
+            ant.nestFlag = 0
+            ant.timeForFood = 0
+            ant.timeForNest = 0
 
             
     def getNonDominated(self):

@@ -54,6 +54,8 @@ env = Environment(N=c.GRID_SIZE, foodRemaining=c.FOOD_INITIAL)
 #fitMatrix = np.zeros((c.NUM_GENS, c.POP_SIZE))
 
 for g in range(c.NUM_GENS):
+    if g==c.NUM_GENS-1:
+        c.VISUALS = True
     #reset grid before each simulation
     env.create_grid()
     data = pop.evaluate(env)
@@ -65,9 +67,8 @@ for g in range(c.NUM_GENS):
     data.to_csv('csv/SEED_'+str(SEED)+'_G_'+str(g)+'_.csv')
     
 
-with open('fitnessValues_%03d.p'%SEED, 'wb') as f:
-    
-    pickle.dump(fitMatrix, f)
+#with open('fitnessValues_%03d.p'%SEED, 'wb') as f:   
+    #pickle.dump(fitMatrix, f)
     
 
 #if __name__=="__main__":

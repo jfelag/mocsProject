@@ -78,23 +78,23 @@ class Ant:
         if self.lastStep == 'r':
             lProb = 0
             rProb += 1+self.pVec[0]
-            uProb += 0.5+self.pVec[0]
-            dProb += 0.5+self.pVec[0]
+            uProb += self.pVec[0]/2
+            dProb += self.pVec[0]/2
         elif self.lastStep == 'l':
             rProb = 0
             lProb += 1+self.pVec[0]
-            uProb += 0.5+self.pVec[0]
-            dProb += 0.5+self.pVec[0]
+            uProb += self.pVec[0]/2
+            dProb += self.pVec[0]/2
         elif self.lastStep == 'u':
             dProb = 0
             uProb += 1+self.pVec[0]
-            lProb += 0.5+self.pVec[0]
-            rProb += 0.5+self.pVec[0]
+            lProb += self.pVec[0]/2
+            rProb += self.pVec[0]/2
         elif self.lastStep == 'd':
             uProb = 0
             dProb += 1+self.pVec[0]
-            lProb += 0.5+self.pVec[0]
-            rProb += 0.5+self.pVec[0]
+            lProb += self.pVec[0]/2
+            rProb += self.pVec[0]/2
         
         #prevent moving outside bounds
         if self.xPos == 0:
@@ -163,12 +163,15 @@ class Ant:
             if ySenseLo < 0:
                 sensedAreaWithPadding[-ySenseLo:, -xSenseLo:] = sensedAreaWithBounds
             elif ySenseHi > N-1:
+                ySenseHi -= N-1
                 sensedAreaWithPadding[:-ySenseHi, -xSenseLo:] = sensedAreaWithBounds 
             else:
                 sensedAreaWithPadding[:, -xSenseLo:] = sensedAreaWithBounds 
                 
         elif xSenseHi > N-1:
+            xSenseHi -= N-1
             if ySenseHi > N-1:
+                ySenseHi -= N-1
                 sensedAreaWithPadding[:-ySenseHi, :-xSenseHi] = sensedAreaWithBounds
             elif ySenseLo < 0:
                 sensedAreaWithPadding[-ySenseLo:, :-xSenseHi] = sensedAreaWithBounds
@@ -178,6 +181,7 @@ class Ant:
             if ySenseLo < 0:
                 sensedAreaWithPadding[-ySenseLo:, :] = sensedAreaWithBounds 
             elif ySenseHi > N-1:
+                ySenseHi -= N-1
                 sensedAreaWithPadding[:-ySenseHi, :] = sensedAreaWithBounds 
                 
 
@@ -211,6 +215,8 @@ class Ant:
             self.A += np.random.choice([-1, +1])
             if self.A < 1:
                 self.A = 1
+            elif self.A > 10:
+                self.A = 10
         else:
             pIdxToChange = np.random.choice([0,1,2])
             #change selected prob to [0.9, 1.1] times its original value
@@ -230,7 +236,7 @@ class Ant:
         #smallest sensing area -> alive for half the sim time
         # decrease life by 5 time steps for each bump in radius
         # todo (maybe): change self.A term to quadratic weighting since the sensing area scales like A^2
-        self.aliveTime = TIME/2 - 5*self.A + 5
+        self.aliveTime = TIME/2 - 5*self.A + 10
         
     
     def increment_age(self):
