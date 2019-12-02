@@ -7,20 +7,32 @@ import numpy as np
 import pickle
 import argparse
 
-def make_args():
-    description = ''
-    parser = argparse.ArgumentParser(description=description,formatter_class=argparse.ArgumentDefaultsHelpFormatter)
-    parser.add_argument('-i',
-                        '--inputdir',
-                        help='input directory',
-                        required=True,
-                        type=str)
-    parser.add_argument('-o',
-                        '--outdir',
-                        help='output directory (will be passed to args.script with -o argument)',
-                        required=True,
-                        type=str)
-    return parser.parse_args()
+#def make_args():
+#    description = ''
+#    parser = argparse.ArgumentParser(description=description,formatter_class=argparse.ArgumentDefaultsHelpFormatter)
+#    parser.add_argument('-i',
+#                        '--inputdir',
+#                        help='input directory',
+#                        required=True,
+#                        type=str)
+#    parser.add_argument('-o',
+#                        '--outdir',
+#                        help='output directory',
+#                        required=True,
+#                        type=str)
+#    parser.add_argument('-s',
+#                        '--seed',
+#                        help='seed',
+#                        required=True,
+#                        type=str)
+#    return parser.parse_args()
+
+
+#def main():
+#   args = make_args()
+#    
+#    datadir = args.inputdir
+#    outputdir = args.outdir
 
 SEED = 0 
 
@@ -57,3 +69,6 @@ with open('fitnessValues_%03d.p'%SEED, 'wb') as f:
     
     pickle.dump(fitMatrix, f)
     
+
+#if __name__=="__main__":
+#    main()
