@@ -5,6 +5,22 @@ from ant import Ant
 import random
 import numpy as np
 import pickle
+import argparse
+
+def make_args():
+    description = ''
+    parser = argparse.ArgumentParser(description=description,formatter_class=argparse.ArgumentDefaultsHelpFormatter)
+    parser.add_argument('-i',
+                        '--inputdir',
+                        help='input directory',
+                        required=True,
+                        type=str)
+    parser.add_argument('-o',
+                        '--outdir',
+                        help='output directory (will be passed to args.script with -o argument)',
+                        required=True,
+                        type=str)
+    return parser.parse_args()
 
 SEED = 0 
 

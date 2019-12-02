@@ -7,9 +7,7 @@ import glob
 import argparse
 
 def make_args():
-    description = 'Generalized jobs submitter for PBS on VACC. Tailored to jobs that can be chunked based on datetime.' \
-                  ' Scripts to be run MUST have -o output argument. \n Output will be saved in log files with the first 3' \
-                  ' characters of args.flexargs and the start date for the job'
+    description = ' '
     parser = argparse.ArgumentParser(description=description,formatter_class=argparse.ArgumentDefaultsHelpFormatter)
     parser.add_argument('-i',
                         '--inputdir',
