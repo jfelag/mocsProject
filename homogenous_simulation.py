@@ -14,7 +14,7 @@ def make_args():
                         '--sensing_area',
                         help='sensing_area',
                         required=False,
-                        type=str)
+                        type=int)
     parser.add_argument('-o',
                         '--outdir',
                         help='output directory',
