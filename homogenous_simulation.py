@@ -30,7 +30,7 @@ def main():
     SENSING_AREA = args.sensing_area
 #    outputdir = args.outdir
     
-    SEED_LIST = range(9)
+    SEED_LIST = range(3,10)
     
     for SEED in SEED_LIST:
     
