@@ -20,11 +20,6 @@ def make_args():
                         help='output directory',
                         required=False,
                         type=str)
-    parser.add_argument('-s',
-                        '--seed',
-                        help='seed',
-                        required=False,
-                        type=str)
     return parser.parse_args()
 
 
