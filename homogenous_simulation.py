@@ -22,6 +22,7 @@ def make_args():
                         type=str)
     return parser.parse_args()
 
+ANT_ID = 0
 
 def main():
     args = make_args()
@@ -36,12 +37,10 @@ def main():
         random.seed(SEED)
         np.random.seed(SEED)
         
-        ANT_ID = 0
         def get_ant_id():
             global ANT_ID
             ANT_ID += 1
             return ANT_ID
-        
         
         def create_new_ant():
             sensing_area = SENSING_AREA
@@ -50,7 +49,6 @@ def main():
             p_pheromone = random.random()
             new_ant = Ant(sensing_area, p_repeat, p_target, p_pheromone, get_id = get_ant_id)
             return new_ant
-        
         
         pop = Population(create_new_ant, pop_size=c.POP_SIZE)
         env = Environment(N=c.GRID_SIZE, foodRemaining=c.FOOD_INITIAL)
