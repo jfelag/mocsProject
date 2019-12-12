@@ -26,7 +26,7 @@ def make_args():
 
 def read_files(datadir):
     datalist = []
-    for file in glob.glob(datadir):
+    for file in glob.glob(datadir+'/*'):
         temp = pd.read_csv(file, index_col=False)
         seed = file.split('_')[1]
         gen = int(file.split('_')[3])
@@ -40,7 +40,17 @@ def read_files(datadir):
     
     return data
 
-
+def read_homog_files(datadir_list):
+    data = read_files(datadir_list[0])
+    for datadir in datadir_list[1:]:
+        temp = read_files(datadir)
+        temp['init_A'] = [datadir.split('.')[0][-1]]*len(temp)
+        print(temp['init_A'].head(1))
+        data.append(temp)
+        
+    return data
+        
+        
 
 #def SA_dist_T(data, T, out):
 #    # Distribution of # ants by sensing area at T = T
@@ -212,22 +222,27 @@ def violin_fitness(data, out, minSA, maxSA):
     
 def main():
     
-    # pyhton3 plots.py -i DIRECTORYNAME -o figs/
-    
     args = make_args()
     
-    datadir = args.inputdir
+    datadir = args.inputdir #csv/sensing_area_*
     out = args.outdir
+
+    datadir_list = []
+    for file in glob.glob(datadir):
+        datadir_list.append(file)
     
-    data = read_files(datadir)
+    data = read_homog_files(datadir_list)
+    print(data.head())
 
 #    out = outputdir+'SEED_'+str(SEED)+'_'
-#    out = outputdir+'_TEST_'
     
-    violin_fitness(data, out, 1, 5)
-    violin_fitness(data, out, 6, 10)
-    fitness_SA_gen_timeseries(data, out)
-    SA_gen_timeseries(data, out)
+    for A in data.init_A.unique():
+        filtered_data = data[data['init_A']==A]
+        out = out+str(A)+'_'
+        violin_fitness(filtered_data, out, 1, 5)
+        violin_fitness(filtered_data, out, 6, 10)
+        fitness_SA_gen_timeseries(filtered_data, out)
+        SA_gen_timeseries(filtered_data, out)
 
     
 
